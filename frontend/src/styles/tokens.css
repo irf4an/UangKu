@@ -1,0 +1,168 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Primitives */
+  --emerald-50:   #E6FAFC;
+  --emerald-100:  #B5F4E2;
+  --emerald-500:  #00D68F;
+  --emerald-600:  #00B4D8;
+  --emerald-700:  #0096C7;
+
+  --stone-50:     #F8FAFC;
+  --stone-100:    #F1F5F9;
+  --stone-200:    #E2E8F0;
+  --stone-300:    #CBD5E1;
+  --stone-500:    #64748B;
+  --stone-700:    #334155;
+  --stone-900:    #1A1A2E;
+
+  --red-50:       #FFF1F2;
+  --red-500:      #FF6B6B;
+  --red-600:      #FA5252;
+
+  --amber-50:     #FFFBEB;
+  --amber-500:    #F59E0B;
+
+  /* Semantic Tokens */
+  --color-bg:         var(--stone-50);
+  --color-surface:    #FFFFFF;
+  --color-card:       #FFFFFF;
+  --color-border:     var(--stone-200);
+  --color-border-strong: var(--stone-300);
+
+  --color-text:       var(--stone-900);
+  --color-text-secondary: var(--stone-700);
+  --color-text-muted: var(--stone-500);
+
+  --color-primary:      var(--emerald-500);
+  --color-primary-hover: var(--emerald-600);
+  --color-accent:       var(--emerald-500);
+  --color-accent-hover: var(--emerald-600);
+  --color-accent-soft:  var(--emerald-50);
+
+  --color-income:     var(--emerald-500);
+  --color-expense:    var(--red-500);
+  --color-expense-soft: var(--red-50);
+  --color-warning:    var(--amber-500);
+  --color-warning-soft: var(--amber-50);
+
+  /* Elevation / Shadow */
+  --shadow-card:  0 1px 3px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.01);
+  --shadow-float: 0 8px 30px rgba(0,214,143,0.12);
+
+  /* === Custom Easing Curves (Emil Kowalski / animations.dev) === */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* === Pressable Elements — scale(0.97) on :active === */
+button, a, [role="button"] {
+  transition: transform 150ms var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:active, a:active, [role="button"]:active {
+  transform: scale(0.97);
+}
+
+/* === Stagger Animations for Lists === */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stagger-item {
+  opacity: 0;
+  animation: fadeInUp 350ms var(--ease-out) forwards;
+}
+.stagger-item:nth-child(1) { animation-delay: 0ms; }
+.stagger-item:nth-child(2) { animation-delay: 40ms; }
+.stagger-item:nth-child(3) { animation-delay: 80ms; }
+.stagger-item:nth-child(4) { animation-delay: 120ms; }
+.stagger-item:nth-child(5) { animation-delay: 160ms; }
+.stagger-item:nth-child(6) { animation-delay: 200ms; }
+.stagger-item:nth-child(7) { animation-delay: 240ms; }
+.stagger-item:nth-child(8) { animation-delay: 280ms; }
+
+/* === Hero Card Entrance === */
+@keyframes heroReveal {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.hero-card {
+  animation: heroReveal 500ms var(--ease-out) forwards;
+}
+
+/* === Modal / Bottom Sheet — slide from bottom, not scale(0) === */
+@keyframes slideUpIn {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-backdrop {
+  animation: fadeIn 200ms var(--ease-out) forwards;
+}
+
+.modal-sheet {
+  animation: slideUpIn 350ms var(--ease-drawer) forwards;
+}
+
+/* === Tab Switch Transition === */
+.tab-active-indicator {
+  transition: transform 200ms var(--ease-out), opacity 200ms var(--ease-out);
+}
+
+/* === Card Hover Lift === */
+@media (hover: hover) and (pointer: fine) {
+  .card-interactive:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    transition: transform 200ms var(--ease-out), box-shadow 200ms var(--ease-out);
+  }
+}
+
+/* === Reduced Motion — respect user preference === */
+@media (prefers-reduced-motion: reduce) {
+  button, a, [role="button"] {
+    transition: none;
+  }
+  button:active, a:active, [role="button"]:active {
+    transform: none;
+  }
+  .stagger-item,
+  .hero-card,
+  .modal-backdrop,
+  .modal-sheet,
+  .tab-active-indicator {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
